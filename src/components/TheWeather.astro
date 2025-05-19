@@ -1,0 +1,64 @@
+---
+
+---
+
+<!-- Weather -->
+<section class="weather">
+        
+      <h1>Weather</h1>
+      <data value="" class="city">A City</data>
+      <data value="" class="temp">A Temp</data>
+      <img src="https://assets.codepen.io/16425/image-placeholder.png?width=200&height=200&format=auto" class="icon" />
+    
+</section>
+
+<script lang="js">
+
+// YOUR API KEY HERE
+const APIKEY ='7f294e5981e12ab1a8b95c48d43d2ae4';
+
+// Units for Farenheit
+const units = 'imperial';
+
+// Get Elements
+const theCity = document.querySelector('.city');
+const theTemp = document.querySelector('.temp');
+const theIcon = document.querySelector('.icon');
+
+// Function to get weather by coordinates
+function getWeatherByCoords(lat, lon) {
+  const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${APIKEY}&units=${units}`;
+  console.log(url);
+
+  fetch(url)
+    .then(response => response.json())
+    .then(data => {
+      // Check-check: Is data good? 
+      console.log(data, lat, lon);
+      
+      // Set Elements
+      theCity.innerText = data.name;
+      theTemp.innerText = data.main.temp;
+      theIcon.src = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
+    });
+}
+
+// Get Geolocation
+if (navigator.geolocation) {
+  
+  navigator.geolocation.getCurrentPosition(
+    // Success callback
+    position => {
+      const lat = position.coords.latitude;
+      const lon = position.coords.longitude;
+      getWeatherByCoords(lat, lon);
+    },
+    
+  );
+
+} else {
+  // Browser doesn't support geolocation
+  theCity.innerText = "Geolocation not supported";
+}
+</script>
+

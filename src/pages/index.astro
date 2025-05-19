@@ -1,0 +1,29 @@
+---
+// Layouts
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+// Components
+import TheVideo from '../components/TheVideo.astro';
+import TheTime from '../components/TheTime.astro';
+import TheDate from '../components/TheDate.astro';
+import TheWeather from '../components/TheWeather.astro';
+
+// Styling
+import '../styles.css';
+---
+
+<BaseLayout>
+
+	<TheVideo />
+
+	<main class="layout">
+
+		<TheTime />
+
+		<TheDate />
+
+		<TheWeather />
+
+	</main>
+
+</BaseLayout>

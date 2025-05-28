@@ -7,12 +7,16 @@
         
       <h1>Weather</h1>
       <data value="" class="city">A City</data>
+      <br />
       <data value="" class="temp">A Temp</data>
-      <img src="https://assets.codepen.io/16425/image-placeholder.png?width=200&height=200&format=auto" class="icon" />
-        <data class="humidity">Humidity: --%</data>
+      <br />
         <data class="wind">Wind: -- mph</data>
+        <br />
         <data class="sunrise">Sunrise: --:--</data>
+        <br />
         <data class="sunset">Sunset: --:--</data>
+        <br />
+         <img src="https://assets.codepen.io/16425/image-placeholder.png?width=200&height=200&format=auto" class="icon" />
 </section>
 
 <script lang="js">
@@ -26,11 +30,10 @@ const units = 'imperial';
 // Get Elements
 const theCity = document.querySelector('.city');
 const theTemp = document.querySelector('.temp') ;
-const theIcon = document.querySelector('.icon');
-const theHumidity = document.querySelector('.humidity');
 const theWind = document.querySelector('.wind');
 const theSunrise = document.querySelector('.sunrise');
 const theSunset = document.querySelector('.sunset');
+const theIcon = document.querySelector('.icon');
 
 
 
@@ -61,11 +64,9 @@ function getWeatherByCoords(lat, lon) {
       console.log(data, lat, lon);
       
       // Set Elements
-      theCity.innerText = data.name;
       theTemp.innerText = `${Math.round(data.main.temp)}°F`;
-      theHumidity.innerText = `Humidity: ${data.main.humidity}%`;
       theWind.innerText = `Wind: ${Math.round(data.wind.speed)} mph`;
-      theIcon.src = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
+     
 
       // Convert UNIX timestamps to readable time
       const sunrise = new Date(data.sys.sunrise * 1000);
@@ -80,6 +81,7 @@ function getWeatherByCoords(lat, lon) {
       }
       theSunrise.innerText = `Sunrise: ${formatTime(sunrise)}`;
       theSunset.innerText = `Sunset: ${formatTime(sunset)}`;
+      theIcon.src = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
     });
 }
 

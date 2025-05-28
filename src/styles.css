@@ -1,86 +1,90 @@
-/* Grid */
+/* ==== GRID LAYOUT ==== */
 .layout {
-  /* Set your own grid   */
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: 400px;
-  grid-column-gap: 1em;
+  grid-auto-rows: minmax(400px, auto);
+  gap: 3em;
+  padding: 2rem;
 }
 
-/* Widgets */
+/* ==== GENERAL WIDGETS ==== */
 section {
-  background: rgba(211, 211, 211, 0.5);
-  padding: 1em;
-  
-  /* Relative Parent. Absolute Child */
-  position: relative;
+  background: rgba(0, 0, 0, 0.1); /* More see-through, darker for contrast */
+  border-radius: 1rem;
+  text-align: center;
+  backdrop-filter: blur(10px); /* Stronger frosted glass effect */
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.4); /* Soft shadow for depth */
 }
 
-/* Time */
-.time {
+/* ==== HEADINGS ==== */
+h1 {
+  font-size: 4rem; /* Bigger for clarity */
+  margin-bottom: 1rem;
+  color: black;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-family: 'Bebas Neue', sans-serif;
+  font-weight: 600;
 }
 
-.hours {
+/* ==== TIME / DATE / WEATHER DATA ==== */
+.time data,
+.date data,
+.weather data {
+  display: inline-block;
+  font-family: 'General Sans', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 300;
+  margin: 0.5rem;
 }
 
-.minutes {
+.time data {
+  font-size: 2.7rem; 
+}
+.date data { 
+  font-size: 2rem; 
 }
 
-.seconds {
-}
 
-.amOrPM {
-  
-}
-
-/* Date */
-.date {
-  
-}
-
-.month {
-}
-
-.dayOfMonth {
-}
-
-.year {
-}
-
-.dayOfWeek {
-}
-
-/* Weather */
-.weather {
-  
-}
-
-.city {
-  
-}
-
-.temp {
-  
-}
-
+/* ==== WEATHER ICON ==== */
 .weather img {
-  
+  width: 100px;
+  height: 100px;
+  margin: 1rem 0;
+  filter: brightness(1.1);
 }
 
-/* Smart Mirror */
-video { 
-  
-  /* Position video      */
-    position: absolute;
-    top: 0;
-    left: 0;
-    /* Stretch to fill viewport */
-    width: 100vw;
-    height: 100vh;
-    /* stack behind content     */
-    z-index: -1;
-    /* fill background with video    */
+/* ==== VIDEO BACKGROUND ==== */
+video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
   object-fit: cover;
   object-position: center;
-  
+  opacity: 1; /* More visible mirror video */
+}
+
+/* ==== RESPONSIVE ==== */
+@media (max-width: 768px) {
+  .layout {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+  }
+
+  section {
+    margin-bottom: 1rem;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  .time data,
+  .date data,
+  .weather data {
+    font-size: 2rem;
+  }
 }

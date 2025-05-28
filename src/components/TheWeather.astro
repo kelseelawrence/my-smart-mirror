@@ -9,21 +9,45 @@
       <data value="" class="city">A City</data>
       <data value="" class="temp">A Temp</data>
       <img src="https://assets.codepen.io/16425/image-placeholder.png?width=200&height=200&format=auto" class="icon" />
-    
+        <data class="humidity">Humidity: --%</data>
+        <data class="wind">Wind: -- mph</data>
+        <data class="sunrise">Sunrise: --:--</data>
+        <data class="sunset">Sunset: --:--</data>
 </section>
 
 <script lang="js">
 
 // YOUR API KEY HERE
-const APIKEY ='7f294e5981e12ab1a8b95c48d43d2ae4';
+const APIKEY ='76e81497314034a9100e1f5e88a27afd';
 
 // Units for Farenheit
 const units = 'imperial';
 
 // Get Elements
 const theCity = document.querySelector('.city');
-const theTemp = document.querySelector('.temp');
+const theTemp = document.querySelector('.temp') ;
 const theIcon = document.querySelector('.icon');
+const theHumidity = document.querySelector('.humidity');
+const theWind = document.querySelector('.wind');
+const theSunrise = document.querySelector('.sunrise');
+const theSunset = document.querySelector('.sunset');
+
+
+
+
+function getLocationName(lat, lon) {
+  const geoUrl = `https://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&limit=1&appid=${APIKEY}`;
+
+  fetch(geoUrl)
+    .then(response => response.json())
+    .then(data => {
+      if (data && data.length > 0) {
+        const location = data[0];
+        // Set city and state
+        theCity.innerText = `${location.name}, ${location.state}`;
+      }
+    });
+}
 
 // Function to get weather by coordinates
 function getWeatherByCoords(lat, lon) {
@@ -38,8 +62,24 @@ function getWeatherByCoords(lat, lon) {
       
       // Set Elements
       theCity.innerText = data.name;
-      theTemp.innerText = data.main.temp;
+      theTemp.innerText = `${Math.round(data.main.temp)}°F`;
+      theHumidity.innerText = `Humidity: ${data.main.humidity}%`;
+      theWind.innerText = `Wind: ${Math.round(data.wind.speed)} mph`;
       theIcon.src = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
+
+      // Convert UNIX timestamps to readable time
+      const sunrise = new Date(data.sys.sunrise * 1000);
+      const sunset = new Date(data.sys.sunset * 1000);
+
+      function formatTime(date) {
+        let hours = date.getHours();
+        const minutes = date.getMinutes().toString().padStart(2, '0');
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12 || 12;
+        return `${hours}:${minutes} ${ampm}`;
+      }
+      theSunrise.innerText = `Sunrise: ${formatTime(sunrise)}`;
+      theSunset.innerText = `Sunset: ${formatTime(sunset)}`;
     });
 }
 
@@ -52,6 +92,7 @@ if (navigator.geolocation) {
       const lat = position.coords.latitude;
       const lon = position.coords.longitude;
       getWeatherByCoords(lat, lon);
+      getLocationName(lat, lon);
     },
     
   );
